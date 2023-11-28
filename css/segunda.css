@@ -1,0 +1,62 @@
+.campos3 h2 {
+    margin-bottom: 3rem;
+}
+
+#storytelling {
+    width: 51.125rem;
+    height: 409px;
+    resize: none;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    border-radius: 1%;
+    border-color: rgb(165, 161, 161);
+    text-align: justify;
+}
+
+#copy {
+    width: 51.125rem;
+    height: 246px;
+    resize: none;
+    margin-top: 2rem;
+    border-radius: 1%;
+    border-color: rgb(165, 161, 161);
+}
+
+::placeholder {
+    padding-left: 40px;
+    padding-top: 20px;
+    font-family:'Lato', sans-serif;
+    font-weight: 580;
+    font-size: 20px;
+    color: #09244b7e;
+}
+
+.caracteres {
+    width: 1068px;
+    font-family:'Lato', sans-serif;
+    font-size: 20px;
+    color: #09244b7e;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+}
+
+#submitBtn2 {
+    margin-bottom: 20rem;
+}
+
+@media only screen and (max-width: 900px) {
+
+    #storytelling,
+    #copy {
+        width: 90%;
+    }
+}
+
+
+
+
+
+
+
+
