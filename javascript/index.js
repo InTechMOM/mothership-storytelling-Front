@@ -39,7 +39,7 @@ buttonsComportamiento.forEach((button) => {
     
     button.classList.add('selected');
     
-    comportamientoSeleccionado = button.getAttribute('alt');
+    comportamientoSeleccionado = button.getAttribute('id');
   });
 });
 
@@ -106,7 +106,7 @@ buttonsComportamiento.forEach((button) => {
           console.log(data);
           if (data.status === 'Creado') {
             // Si los datos se guardaron correctamente, redirigir a la siguiente página
-            window.location.href = './html/segunda.html';
+            window.location.href = './html/segunda.html?historyId=${data._id}';
           } else {
             // Mostrar la alerta de error
             errorAlert.style.display = 'block';
