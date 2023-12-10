@@ -15,6 +15,7 @@
     color: #09244b7e;
     font-size: 1.25rem;
     font-weight: 580;
+    padding: 1rem;
 }
 
 #copy {
@@ -28,6 +29,7 @@
     color: #09244b7e;
     font-size: 1.25rem;
     font-weight: 580;
+    padding: 1rem;
 }
 
 ::placeholder {
@@ -51,6 +53,7 @@
 
 #submitBtn2 {
     margin-bottom: 20rem;
+    font-size: 1.25rem;
 }
 
 @media only screen and (max-width: 900px) {
