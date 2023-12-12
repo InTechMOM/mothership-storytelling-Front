@@ -1,9 +1,3 @@
-
-const historyId = obtenerHistoryIdDesdeURL();
-
-let responseAI = '';
-let responseAI2 = '';
-
 // Para el menú en responsive
 document.addEventListener('DOMContentLoaded', function () {
   const menuIcon = document.getElementById('menu-icon');
@@ -13,68 +7,45 @@ document.addEventListener('DOMContentLoaded', function () {
     navList.classList.toggle('show');
   });
 
-  // configura los valores de los textarea
-  document.querySelector('#storytelling').value = responseAI;
+  // Lee los datos almacenados en sessionStorage
+  const responseAiText = sessionStorage.getItem('responseAiText');
+  const responseAiHash = sessionStorage.getItem('responseAiHash');
+  const nombre = sessionStorage.getItem('nombre');
 
-  document.querySelector('#copy').value = responseAI2;
-});
+  // Asigna los datos a las áreas de texto
+  document.getElementById('storytelling').value = responseAiText || '';
+  document.getElementById('copy').value = responseAiHash || '';
 
-document.getElementById('submitBtn2').addEventListener('click', function () {
+  // Actualiza el contenido del título con el nombre de la campaña
+  document.getElementById('nombreCampañaPlaceholder').innerText = nombre;
 
-  // obtiene los nuevos contenidos editados por el usuario en los textarea
-  const editedStorytelling = document.querySelector('#storytelling').value;
+  // Agrega un evento al botón "Guardar"
+  document.getElementById('submitBtn2').addEventListener('click', function () {
+    // Obtén los valores actuales de las áreas de texto
+    const nuevoStorytelling = document.getElementById('storytelling').value;
+    const nuevoCopy = document.getElementById('copy').value;
 
-  const editedCopy = document.querySelector('#copy').value;
-
-  if (historyId) {
-    // actualiza responseAI en el servidor
-    fetch(`https://mothership-back.onrender.com/api/storytelling/${historyId}/openai-response`, {
+    // Realiza la solicitud PATCH para actualizar en la base de datos
+    fetch('http://localhost:3000/api/storytelling:id', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ responseAI: editedStorytelling }),
+      body: JSON.stringify({
+        nuevoStorytelling: nuevoStorytelling,
+        nuevoCopy: nuevoCopy,
+        // Otros datos que necesites enviar para la actualización
+      }),
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Error en la solicitud: ${response.statusText}`);
-        }
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((data) => {
-        console.log('Respuesta de OpenAI actualizada en la base de datos:', data);
+        // Maneja la respuesta según tus necesidades
+        console.log('Respuesta de la actualización:', data);
+        // Puedes mostrar un mensaje de éxito o redirigir a otra página, etc.
       })
       .catch((error) => {
-        console.error('Error en la solicitud:', error);
+        console.error('Error en la solicitud de actualización:', error);
+        // Puedes mostrar un mensaje de error o manejar la situación de otra manera
       });
-
-    // actualiza responseAI2 en el servidor
-    fetch(`https://mothership-back.onrender.com/api/storytelling/miID123/openai-response2`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ responseAI2: editedCopy }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Error en la solicitud: ${response.statusText}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Respuesta de OpenAI2 actualizada en la base de datos:', data);
-      })
-      .catch((error) => {
-        console.error('Error en la solicitud:', error);
-      });
-  } else {
-    console.error('No se encontró un historyId válido en la URL');
-  }
+  });
 });
-
-// Para obtener el historyId desde la URL
-function obtenerHistoryIdDesdeURL() {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get('historyId');
-}

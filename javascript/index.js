@@ -1,11 +1,11 @@
-//para la entrada de caracteres de los input
+// para la entrada de caracteres de los input
 
 const inputs = document.querySelectorAll('input[type="text"]');
 
 inputs.forEach(input => {
     input.addEventListener('input', function () {
         // Verifica el ID del campo de entrada actual
-        if (this.id !== 'input2') {
+        if (this.id !== 'enlace') {  // Cambiado 'input2' a 'enlace'
             // Aplica la lógica para permitir solo letras, punto y coma
             this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s.,'-]/g, '');
         }
@@ -80,7 +80,7 @@ buttonsComportamiento.forEach((button) => {
 
 
     if (nombre && enlace && empresa && mision && genero && protagonista && objetivo && motivacion && malo && ayudante && actitud && mensaje && comportamientoSeleccionado) {
-        fetch('https://mothership-back.onrender.com/api/storytelling', {
+        fetch('http://localhost:3000/api/storytelling', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -103,10 +103,18 @@ buttonsComportamiento.forEach((button) => {
         })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          console.log("Texto de IA:", data.responseAiText);
+          console.log("Hash de IA:", data.responseAiHash);
+          
           if (data.status === 'Creado') {
-            // Si los datos se guardaron correctamente, redirigir a la siguiente página
-            window.location.href = './html/segunda.html?historyId=${data._id}';
+            // Almacena los datos en sessionStorage
+            sessionStorage.setItem('responseAiText', data.responseAiText);
+            sessionStorage.setItem('responseAiHash', data.responseAiHash);
+            
+            sessionStorage.setItem('nombre', nombre);
+            
+            // Redirige a la segunda pantalla
+            window.location.href = `./html/segunda.html?historyId=${data._id}`;
           } else {
             // Mostrar la alerta de error
             errorAlert.style.display = 'block';
